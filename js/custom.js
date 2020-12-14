@@ -1,12 +1,17 @@
-var errMap = ["Invalid number", "Invalid country code", "too short", "too long", "invalid number"]
+var errMap = ["Invalid number", "Invalid country code", "too short", "too long", "invalid number"];
 
 var input = document.getElementById("phone");
 var iti = window.intlTelInput(input, {
     utilsScript: "js/utils.js"
 });
 let placeholder = '';
+/**
+ * 
+ */
 input.addEventListener('countrychange', function () {
-    input.removeAttribute('maxlength');
+    reset();
+    //input.removeAttribute('maxlength');
+    this.value = '';
     placeholder = input.getAttribute('placeholder');
 
     var dialCode = iti.getSelectedCountryData().dialCode;
@@ -23,16 +28,47 @@ input.addEventListener('countrychange', function () {
     input.style.paddingLeft = (dialCodeEleWid * wid) + "px";
     input.value = '';
 });
+var errMsg = document.querySelector('.err-msg');
+var validMsg = document.querySelector('.valid-msg');
+function reset() {
+    errMsg.classList.add('hide');
+    validMsg.classList.add('hide');
+}
+/**
+ * 
+ */
+let state = false;
+let inpValue = '';
 input.addEventListener('input', function () {
+    reset();
     placeholder = input.getAttribute('placeholder');
     if (iti.isValidNumber()) {
-        input.setAttribute('maxlength', placeholderNumLength(placeholder));
+        if (!state) {
+            inpValue = this.value;
+            state = true;
+        }
+        //this.value = inpValue;
+        validMsg.classList.remove('hide'); 
+        //input.setAttribute('maxlength', placeholderNumLength(placeholder));
     } else {
-        input.removeAttribute('maxlength');
+        if (this.value.length <= placeholderNumLength(placeholder)) {
+            //console.log(placeholderNumLength(placeholder), this.value.length);
+            inpValue = this.value;
+            state = false;
+            //input.removeAttribute('maxlength');
+            errMsg.innerHTML = errMap[iti.getValidationError()];
+            errMsg.classList.remove("hide");
+        } else {
+            this.value = inpValue;
+            validMsg.classList.remove('hide');
+            errMsg.classList.add("hide");
+        }
     }
 });
+/**
+ * 
+ */
 input.addEventListener('blur', function () {
-    var dialCode = iti.getSelectedCountryData().dialCode;
     if (placeholderNumLength(placeholder) == this.value.length) {
         input.value = replacePlaceholderWithNum(placeholder, this.value);
     }
@@ -40,8 +76,6 @@ input.addEventListener('blur', function () {
 
 function replacePlaceholderWithNum(placeholder, inputValue) {
     let arr = [];
-    let arrLength = 0;
-    let val = '';
     for (let i = 0; i <= placeholder.length; i++) {
         if (!isNaN(parseInt(placeholder[i]))) {
             arr.push(i)
@@ -50,10 +84,9 @@ function replacePlaceholderWithNum(placeholder, inputValue) {
     for (let i = 0; i < inputValue.length; i++) {
         placeholder = setCharAt(placeholder, arr[i], inputValue[i]);
     }
-    console.log(placeholder);
     return placeholder;
 }
-function placeholderNumLength(placeholder, inputValue) {
+function placeholderNumLength(placeholder) {
     let arr = [];
     for (let i = 0; i <= placeholder.length; i++) {
         if (!isNaN(parseInt(placeholder[i]))) {

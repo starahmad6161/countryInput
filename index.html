@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <!--
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+    -->
+
+    <link rel="stylesheet" href="css/intlTelInput.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+
+</head>
+
+<body>
+
+
+
+    <label>Tel</label>
+    <input type="tel" id="phone">
+
+    <script src="js/intlTelInput.min.js"></script>
+
+    <script>
+        var input = document.getElementById("phone");
+        var iti = window.intlTelInput(input, {
+            utilsScript: "js/utils.js"
+        });
+        input.addEventListener('countrychange', function () {
+            var dialCode = iti.getSelectedCountryData().dialCode;
+            input.value = "+" + dialCode
+        });
+    </script>
+
+    <!--
+        <script src="js/popper.min.js"></script>
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+    -->
+
+
+
+
+</body>
+
+</html>

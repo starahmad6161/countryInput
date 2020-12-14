@@ -8,3 +8,42 @@
         background-image: url('../img/flags@2x.png')
     }
 }
+
+.iti__country-name
+{
+    color: #1297d0;
+}
+.iti__dial-code
+{
+    color: #888;
+}
+
+#phone,
+#phone:hover,
+#phone:focus,
+#phone:active
+{
+    height: 30px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #222;
+    padding-left: 4rem;
+}
+.input-container
+{
+    position: relative;
+}
+#dialCode
+{
+    position: absolute;
+    top: 50%;
+    left: 45px;
+    z-index: 999;
+    transform: translateY(-50%);
+    color: #1297d0;
+}
+.iti__flag-container,
+.iti__selected-flag
+{
+    outline: none;
+}

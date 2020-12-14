@@ -22,20 +22,15 @@
 
 
     <label>Tel</label>
-    <input type="tel" id="phone">
+    <div class="input-container">
+        <div id="dialCode">+1</div>
+        <input type="tel" id="phone">
+    </div>
 
+    <script src="js/utils.js"></script>
     <script src="js/intlTelInput.min.js"></script>
 
-    <script>
-        var input = document.getElementById("phone");
-        var iti = window.intlTelInput(input, {
-            utilsScript: "js/utils.js"
-        });
-        input.addEventListener('countrychange', function () {
-            var dialCode = iti.getSelectedCountryData().dialCode;
-            input.value = "+" + dialCode
-        });
-    </script>
+    <script src="js/custom.js"></script>
 
     <!--
         <script src="js/popper.min.js"></script>
